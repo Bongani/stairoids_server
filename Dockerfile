@@ -1,11 +1,18 @@
-FROM python:3
+FROM python:3.6
 
-COPY ./requirements.txt app/requirements.txt
+COPY ./requirements.txt stairoids/requirements.txt
 
-WORKDIR /app
+WORKDIR /stairoids
 
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    mkdir -p /stairoids/db
 
-COPY . /app
+COPY . /stairoids
 
-CMD [ 'flask', 'run' ]
+ENV DATABASE_URL="sqlite:////stairoids/db/app.db"
+
+VOLUME /stairoids/db
+EXPOSE 9000
+
+ENTRYPOINT [ "python" ]
+CMD [ "app.py" ]
