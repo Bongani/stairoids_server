@@ -7,7 +7,7 @@ from app import leaderboard_calc
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    return "Are you already on stairoids?! Find out by checking the leaderboard on '/leaderboard/<amount_of_floors>'"
 
 
 @app.route("/event", methods=["POST"])
@@ -37,4 +37,3 @@ def leaderboard(amount_of_floors):
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True, host='0.0.0.0', port=9000)
-
