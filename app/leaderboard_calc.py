@@ -1,6 +1,6 @@
 import pandas as pd
 from app.models import Event
-from app import db
+from app import db, app
 
 
 # TODO: Filter out too large differences in time as these are likely different sessions
@@ -20,6 +20,8 @@ def calculate_leaderboard(amount_of_floors):
 
         # Filter the requested amount of floors done and get columns for time and user only
         results_matrix = difference_matrix.loc[difference_matrix['location'] == amount_of_floors][["time", "username"]]
+
+        app.logger.debug("Results: {}".format(results_matrix))
 
         # Get minimum time for each user
         return results_matrix.loc[results_matrix.groupby("username")['time'].idxmin()].to_dict(orient='records')
