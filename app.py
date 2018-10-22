@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from app.models import Event
 from app import db, app
+from app import leaderboard_calc
 
 
 @app.route('/')
@@ -25,6 +26,12 @@ def add_event():
 
     app.logger.info(":::END::: add_event")
     return jsonify(success=True)
+
+
+@app.route("/leaderboard/<int:amount_of_floors>", methods=["GET"])
+def leaderboard(amount_of_floors):
+    app.logger.info("Return leaderboard for {} floors".format(amount_of_floors))
+    return jsonify(leaderboard_calc.calculate_leaderboard(amount_of_floors=amount_of_floors))
 
 
 if __name__ == '__main__':
